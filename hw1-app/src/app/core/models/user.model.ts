@@ -1,8 +1,6 @@
-export interface ICourse {
+export interface IUser {
   Id: string;
-  Title: string;
-  CreationDate: Date;
-  Duration: number;
-  Description: string;
+  FirstName: string;
+  LastName: string;
 }
 
