@@ -1,10 +1,17 @@
-<p>
-  course-item works!
-</p>
-
-<div>id: {{item.id}}</div>
-<div>Title: {{item.title}}</div>
-<div>CreationDate: {{item.creationDate}}</div>
-<div>Duration: {{item.duration}}</div>
-<div>Description: {{item.description}}</div>
+<div class="course-item">
+  <div class="course-item__info">
+    <div class="course-item__header">
+      <div class="course-item__title">{{item.title}}</div>
+      <div class="course-item__time">
+        <span>{{item.duration}} min</span>
+        <span>{{item.creationDate.toUTCString()}}</span>
+      </div>
+    </div>
+    <div class="course-item__description">{{item.description}}</div>
+  </div>
+  <div class="course-item__controls">
+    <div class="course-item__controls-button">Edit</div>
+    <div class="course-item__controls-button" (click)="onDeleteCourseClick()">Delete</div>
+  </div>
+</div>
 

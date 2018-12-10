@@ -1,0 +1,42 @@
+.course-item {
+  border: 1px solid grey;
+  border-radius: 5px;
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  &__header {
+    font-style: italic;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    align-items: baseline;
+  }
+  &__title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  &__time {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  &__info {
+    width: 100%;
+    padding: 5px 10px;
+  }
+  &__controls {
+    &-button {
+      margin: 5px;
+      border: 1px solid grey;
+      border-radius: 5px;
+      padding: 2px;
+    }
+  }
+  &__description {
+    font-size: 12px;
+  }
+  &__time {
+    span {
+      margin: 0 10px;
+    }
+  }
+}
