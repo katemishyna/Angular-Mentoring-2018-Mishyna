@@ -5,9 +5,9 @@
   </div>
 
   <div class="courses__list" *ngFor="let course of courses">
-    <course-item [item]="course" (deleteCourse)="deleteCourse($event)"></course-item>
+    <course-item [courseItem]="course" (deleteCourse)="deleteCourse($event)"></course-item>
   </div>
 
-  <div class="courses__load-more" (click)="onLoadMoreClick()">Load More</div>
+  <div class="courses__load-more" (click)="loadMoreClick()">Load More</div>
 </div>
 

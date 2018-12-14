@@ -8,7 +8,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 })
 
 export class SearchComponent implements OnInit {
-  public searchStr: string = '';
+  public searchStr = '';
 
   constructor() {
   }

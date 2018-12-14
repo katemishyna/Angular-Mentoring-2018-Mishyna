@@ -1,13 +1,13 @@
 <div class="course-item">
   <div class="course-item__info">
     <div class="course-item__header">
-      <div class="course-item__title">{{item.title}}</div>
+      <div class="course-item__title">{{courseItem.title}}</div>
       <div class="course-item__time">
-        <span>{{item.duration}} min</span>
-        <span>{{item.creationDate.toUTCString()}}</span>
+        <span>{{courseItem.duration}} min</span>
+        <span>{{courseItem.creationDate | date:'shortDate' }}</span>
       </div>
     </div>
-    <div class="course-item__description">{{item.description}}</div>
+    <div class="course-item__description">{{courseItem.description}}</div>
   </div>
   <div class="course-item__controls">
     <div class="course-item__controls-button">Edit</div>
