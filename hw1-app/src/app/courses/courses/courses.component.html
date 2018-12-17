@@ -1,5 +1,13 @@
-courses works!
-<search></search>
-<div *ngFor="let number of [0,1,2,3,4]">
-  <course-item></course-item>
+<div class="courses">
+  <div class="courses__controls">
+    <search></search>
+    <div class="courses__add-button">Add course</div>
+  </div>
+
+  <div class="courses__list" *ngFor="let course of courses">
+    <course-item [courseItem]="course" (deleteCourse)="deleteCourse($event)"></course-item>
+  </div>
+
+  <div class="courses__load-more" (click)="loadMoreClick()">Load More</div>
 </div>
+

@@ -1,5 +1,19 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ICourse, Course } from '../models/course-item.model';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  Input,
+  EventEmitter,
+  Output,
+  OnChanges,
+  DoCheck,
+  AfterContentInit,
+  AfterContentChecked,
+  AfterViewInit,
+  AfterViewChecked,
+  OnDestroy
+} from '@angular/core';
+import {ICourse, Course} from '../models/course-item.model';
 
 @Component({
   selector: 'course-item',
@@ -7,19 +21,56 @@ import { ICourse, Course } from '../models/course-item.model';
   styleUrls: ['./course-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CourseItemComponent implements OnInit {
-  public item: ICourse = new Course({
-    id: 'id',
-    title: 'title',
-    creationDate: new Date(),
-    duration: 33,
-    description: 'description'
-  });
+export class CourseItemComponent implements OnInit,
+  OnChanges,
+  DoCheck,
+  AfterContentInit,
+  AfterContentChecked,
+  AfterViewInit,
+  AfterViewChecked,
+  OnDestroy {
+  @Input() courseItem: ICourse = new Course();
+  @Output() deleteCourse = new EventEmitter<ICourse>();
 
   constructor() {
   }
 
   ngOnInit() {
+    console.log('ngOnInit hook');
+  }
+
+  ngOnChanges() {
+    console.log('ngOnChanges hook');
+  }
+
+  ngDoCheck() {
+    console.log('ngDoCheck hook');
+  }
+
+  ngAfterContentInit() {
+    console.log('ngAfterContentInit hook');
+  }
+
+  ngAfterContentChecked() {
+    console.log('ngAfterContentChecked hook');
+  }
+
+  ngAfterViewInit() {
+    console.log('ngAfterViewInit hook');
+  }
+
+  ngAfterViewChecked() {
+    console.log('ngAfterViewChecked hook');
+  }
+
+  ngOnDestroy() {
+    console.log('ngOnDestroy hook');
+  }
+
+
+  onDeleteCourseClick() {
+    console.log('delete');
+    this.deleteCourse.emit(this.courseItem);
   }
 
 }

@@ -1,5 +1,27 @@
 .header {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 10px;
   &__user {
+    display: flex;
+    align-items: center;
     color: green;
+    margin-right: 20px;
+  }
+  &__login-info {
+    display: flex;
+  }
+  &__logoff-button {
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 5px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    &:hover {
+      backgound-color: grey;
+    }
   }
 }
