@@ -29,6 +29,8 @@ export class CoursesComponent implements OnInit {
 
   public deleteCourse(course: ICourse) {
     const courseIndex = this.courses.findIndex((item) => item.id === course.id);
+    console.log(course);
+    console.log(this.courses)
     if (courseIndex !== -1) {
       this.courses.splice(courseIndex, 1);
     }

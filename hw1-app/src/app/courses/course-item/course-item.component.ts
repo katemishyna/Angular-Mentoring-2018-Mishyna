@@ -69,7 +69,6 @@ export class CourseItemComponent implements OnInit,
 
 
   onDeleteCourseClick() {
-    console.log('delete');
     this.deleteCourse.emit(this.courseItem);
   }
 
