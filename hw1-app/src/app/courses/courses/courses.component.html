@@ -1,13 +1,14 @@
 <div class="courses">
   <div class="courses__controls">
-    <app-search></app-search>
+    <app-search (searchCourse)="searchCourse($event)"></app-search>
     <div class="courses__add-button">Add course</div>
   </div>
 
-  <div class="courses__list" *ngFor="let course of courses">
+  <div class="courses__list" *ngFor="let course of courses | orderBy: 'creationDate'">
     <course-item [courseItem]="course" (deleteCourse)="deleteCourse($event)"></course-item>
   </div>
 
-  <div class="courses__load-more" (click)="loadMoreClick()">Load More</div>
+  <div class="courses__load-more" *ngIf="courses.length" (click)="loadMoreClick()">Load More</div>
+  <div class="courses__no-data" *ngIf="!courses.length">No data. Feel free to Add new course.</div>
 </div>
 

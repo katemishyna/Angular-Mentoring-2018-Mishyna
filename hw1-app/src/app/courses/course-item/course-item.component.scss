@@ -23,6 +23,11 @@
     width: 100%;
     padding: 5px 10px;
   }
+  &__star {
+    color: orange;
+    font-size: 14px;
+    margin-left: 5px;
+  }
   &__controls {
     &-button {
       margin: 5px;

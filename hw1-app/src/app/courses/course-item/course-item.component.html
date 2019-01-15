@@ -1,9 +1,12 @@
-<div class="course-item">
+<div class="course-item" [termHighlighter]="courseItem.creationDate">
   <div class="course-item__info">
     <div class="course-item__header">
-      <div class="course-item__title">{{courseItem.title}}</div>
+      <div class="course-item__title">
+        {{courseItem.title | uppercase}}
+        <i *ngIf="courseItem.topRated" [ngClass]="{'course-item__star': courseItem.topRated}" class="fas fa-star"></i>
+      </div>
       <div class="course-item__time">
-        <span>{{courseItem.duration}} min</span>
+        <span>{{courseItem.duration | duration}}</span>
         <span>{{courseItem.creationDate | date:'shortDate' }}</span>
       </div>
     </div>
