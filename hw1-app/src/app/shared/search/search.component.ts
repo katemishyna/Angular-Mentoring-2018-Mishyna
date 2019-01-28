@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, Output, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'app-search',
@@ -9,6 +9,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 export class SearchComponent implements OnInit {
   public searchStr = '';
+  @Output() searchCourse = new EventEmitter<string>();
 
   constructor() {
   }
@@ -17,6 +18,6 @@ export class SearchComponent implements OnInit {
   }
 
   public search() {
-    console.log(this.searchStr);
+    this.searchCourse.emit(this.searchStr);
   }
 }
