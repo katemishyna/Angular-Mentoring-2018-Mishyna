@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from '../auth.service';
 
 @Component({
   selector: 'breadcrumbs',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BreadcrumbsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authSvc: AuthService) {
+  }
 
   ngOnInit() {
+  }
+
+  public isAuth() {
+    return this.authSvc.isAuth();
   }
 
 }

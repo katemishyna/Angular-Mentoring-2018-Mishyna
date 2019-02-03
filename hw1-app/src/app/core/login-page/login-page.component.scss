@@ -1,0 +1,29 @@
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  &__form {
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+  }
+  &__button {
+    height: 20px;
+    margin: 10px 0;
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 2px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  &__email {
+    display: flex;
+    flex-direction: column;
+  }
+  &__password {
+    display: flex;
+    flex-direction: column;
+  }
+}
