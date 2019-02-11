@@ -1,7 +1,9 @@
 import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
-import {ICourse, Course} from '../models/course-item.model';
+import {Router} from '@angular/router';
+import {ICourse} from '../models/course-item.model';
 import {SearchPipe} from '../../shared/pipes/search.pipe';
 import {CoursesService} from '../courses.service';
+
 
 @Component({
   selector: 'courses',
@@ -15,7 +17,8 @@ export class CoursesComponent implements OnInit {
   public originalCourses: ICourse[] = [];
 
   constructor(private search: SearchPipe,
-              private coursesSvc: CoursesService) {
+              private coursesSvc: CoursesService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -35,9 +38,14 @@ export class CoursesComponent implements OnInit {
     this.courses = this.search.transform(this.originalCourses, 'title', value);
   }
 
+  public addCourse() {
+    this.router.navigate(['/new']);
+  }
+
   private initializeCourses() {
     this.courses = this.coursesSvc.getCourses();
     this.originalCourses = this.courses.map(item => item);
   }
+
 
 }
