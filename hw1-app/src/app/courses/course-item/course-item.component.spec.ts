@@ -4,12 +4,12 @@ import {Course, ICourse} from '../models/course-item.model';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {CourseItemComponent} from './course-item.component';
-import {click} from "../../../../testing/index";
+import {click} from '../../../../testing/index';
 
 @Component({
   template: `
     <course-item
-      [courseItem]="course" (deleteCourse)="deleteCourse($event)">
+      [courseItem]='course' (deleteCourse)='deleteCourse($event)'>
     </course-item>`
 })
 class TestHostComponent {
@@ -33,7 +33,6 @@ fdescribe('CourseItemComponent', () => {
   let testHost: TestHostComponent;
   let fixture: ComponentFixture<TestHostComponent>;
   let de: DebugElement;
-  let deleteButton: HTMLElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
