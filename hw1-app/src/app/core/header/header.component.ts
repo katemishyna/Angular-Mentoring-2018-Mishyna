@@ -1,7 +1,6 @@
 import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {IUser, User} from '../models/user.model';
 import {AuthService} from '../auth.service';
-import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'header',
