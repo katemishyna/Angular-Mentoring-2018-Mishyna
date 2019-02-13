@@ -10,10 +10,9 @@ import {Subscription} from 'rxjs';
 })
 export class HeaderComponent implements OnInit {
   public user: IUser = new User();
-  public authSubscription: Subscription;
 
   constructor(private authSvc: AuthService) {
-    this.authSubscription = this.authSvc.getAuthSubject()
+    this.authSvc.authObs$
       .subscribe(() => {
         this.user = new User();
         if (this.isAuth()) {

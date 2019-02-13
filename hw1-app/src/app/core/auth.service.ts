@@ -1,13 +1,17 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import {Subject} from 'rxjs';
+import { Observable } from 'rxjs/internal/observable';
+import { Subject } from 'rxjs/internal/Subject';
 
 @Injectable()
 export class AuthService {
   public isAuthenticated = false;
-  public authSubject = new Subject();
+  public authObs$: Observable;
+
+  private authSubject = new Subject();
 
   constructor(private router: Router) {
+    this.authObs$ =  this.authSubject.asObservable();
   }
 
   public logIn(email: string, password: string) {
@@ -29,9 +33,5 @@ export class AuthService {
 
   public isAuth() {
     return this.isAuthenticated;
-  }
-
-  public getAuthSubject() {
-    return this.authSubject.asObservable();
   }
 }
