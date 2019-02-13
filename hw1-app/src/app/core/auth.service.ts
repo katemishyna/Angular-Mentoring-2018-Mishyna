@@ -6,7 +6,7 @@ import { Subject } from 'rxjs/internal/Subject';
 @Injectable()
 export class AuthService {
   public isAuthenticated = false;
-  public authObs$: Observable;
+  public authObs$: Observable<any>;
 
   private authSubject = new Subject();
 
