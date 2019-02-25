@@ -5,6 +5,9 @@ import {TermHighlighterDirective} from './directives/term-highlighter.directive'
 import {DurationPipe} from './pipes/duration.pipe';
 import {OrderByPipe} from './pipes/order-by.pipe';
 import {SearchPipe} from './pipes/search.pipe';
+import { DatePickerComponent } from './date-picker/date-picker.component';
+import { DurationInputComponent } from './duration-input/duration-input.component';
+import { MultipleInputComponent } from './multiple-input/multiple-input.component';
 
 @NgModule({
   imports: [FormsModule],
@@ -13,14 +16,20 @@ import {SearchPipe} from './pipes/search.pipe';
     TermHighlighterDirective,
     DurationPipe,
     OrderByPipe,
-    SearchPipe
+    SearchPipe,
+    DatePickerComponent,
+    DurationInputComponent,
+    MultipleInputComponent
   ],
   exports: [
     SearchComponent,
     TermHighlighterDirective,
     DurationPipe,
     OrderByPipe,
-    SearchPipe
+    SearchPipe,
+    DatePickerComponent,
+    DurationInputComponent,
+    MultipleInputComponent
   ],
 })
 export class SharedModule {

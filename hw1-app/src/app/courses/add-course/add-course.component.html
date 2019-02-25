@@ -1,0 +1,27 @@
+<div class="add-course">
+  <div class="fieldset">
+    <span>Title</span>
+    <input [(ngModel)]="course.title"type="text">
+  </div>
+  <div class="fieldset">
+    <span>Description</span>
+    <textarea [(ngModel)]="course.description" name="Text1" cols="40" rows="5"></textarea>
+  </div>
+  <div class="fieldset">
+    <span>Date</span>
+    <date-picker [(date)]="course.date"></date-picker>
+  </div>
+  <div class="fieldset">
+    <span>Duration</span>
+    <duration-input [(duration)]="course.duration"></duration-input>
+  </div>
+  <div class="fieldset">
+    <span>Authors</span>
+    <multiple-input [(items)]="course.authors"></multiple-input>
+  </div>
+  <div class="add-course__controls">
+    <div class="add-course__button" (click)="save()">Save</div>
+    <div class="add-course__button" (click)="cancel()">Cancel</div>
+  </div>
+
+</div>

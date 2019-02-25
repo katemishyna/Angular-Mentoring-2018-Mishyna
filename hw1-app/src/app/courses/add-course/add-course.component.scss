@@ -1,0 +1,21 @@
+.add-course {
+  width: 80%;
+  margin: 20px auto;
+  &__button {
+    height: 20px;
+    margin-right: 10px;
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 2px 5px;
+    cursor: pointer;
+  }
+  &__controls {
+    display: flex;
+  }
+}
+
+.fieldset {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
