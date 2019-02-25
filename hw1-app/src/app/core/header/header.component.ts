@@ -1,19 +1,33 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { IUser, User } from '../models/user.model';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {IUser, User} from '../models/user.model';
+import {AuthService} from '../auth.service';
 
 @Component({
   selector: 'header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
-  public user: IUser = new User({ id: 'Id', firstName: 'Kate', lastName: 'Mishyna' });
+  public user: IUser = new User();
 
-  constructor() {
+  constructor(private authSvc: AuthService) {
+    this.authSvc.authObs$
+      .subscribe(() => {
+        this.user = new User();
+        if (this.isAuth()) {
+          this.user = new User(this.authSvc.getUserInfo());
+        }
+      });
   }
 
   ngOnInit() {
   }
 
+  public isAuth() {
+    return this.authSvc.isAuth();
+  }
+
+  public logout() {
+    this.authSvc.logOut();
+  }
 }

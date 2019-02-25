@@ -1,0 +1,13 @@
+<div class="login-page">
+  <div class="login-page__form">
+    <div class="login-page__email">
+      <span>Email:</span>
+      <input [(ngModel)]="email" type="email">
+    </div>
+    <div class="login-page__password">
+      <span>Password:</span>
+      <input [(ngModel)]="password" type="password">
+    </div>
+    <div class="login-page__button" (click)="login()">Login</div>
+  </div>
+</div>

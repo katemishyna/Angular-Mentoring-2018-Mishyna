@@ -36,19 +36,19 @@ describe('CoursesComponent', () => {
     expect(addButton.textContent).toContain('Add course');
   });
   describe('on delete course event', () => {
-    let courseObj1 = {
+    const courseObj1 = {
       id: 'id1', title: 'Video Course 1',
       creationDate: new Date(2011, 0, 1),
       duration: 33,
       description: 'Lorem'
     };
-    let courseObj2 = {
+    const courseObj2 = {
       id: 'id2', title: 'Video Course 1',
       creationDate: new Date(2011, 0, 1),
       duration: 33,
       description: 'Lorem'
     };
-    let courseObj3 = {
+    const courseObj3 = {
       id: 'id3', title: 'Video Course 1',
       creationDate: new Date(2011, 0, 1),
       duration: 33,
