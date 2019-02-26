@@ -9,19 +9,23 @@ import {AuthService} from './auth.service';
 import {LoginPageComponent} from './login-page/login-page.component';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
+import {NotFoundPageComponent} from './not-found-page/not-found-page.component';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
   imports: [
     SharedModule,
     CommonModule,
-    FormsModule],
+    FormsModule,
+    RouterModule],
   providers: [AuthService],
   declarations: [
     HeaderComponent,
     FooterComponent,
     BreadcrumbsComponent,
     LogoComponent,
-    LoginPageComponent],
+    LoginPageComponent,
+    NotFoundPageComponent],
   exports: [
     HeaderComponent,
     FooterComponent,
