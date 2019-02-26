@@ -6,13 +6,13 @@ import {CourseItemComponent} from './course-item/course-item.component';
 import {SharedModule} from '../shared/shared.module';
 import {CoursesRoutingModule} from './courses-routing.module';
 import {CoursesService} from './courses.service';
-import {AddCourseComponent} from './add-course/add-course.component';
+import {CoursePageComponent} from './course-page/course-page.component';
 
 
 @NgModule({
   imports: [CommonModule, SharedModule, CoursesRoutingModule, FormsModule],
   providers: [CoursesService],
-  declarations: [CoursesComponent, CourseItemComponent, AddCourseComponent],
+  declarations: [CoursesComponent, CourseItemComponent, CoursePageComponent],
   exports: [CoursesComponent, CourseItemComponent],
 })
 export class CoursesModule {

@@ -13,6 +13,7 @@ import {
   AfterViewChecked,
   OnDestroy
 } from '@angular/core';
+import {Router} from '@angular/router';
 import {ICourse, Course} from '../models/course-item.model';
 
 @Component({
@@ -32,7 +33,7 @@ export class CourseItemComponent implements OnInit,
   @Input() courseItem: ICourse = new Course();
   @Output() deleteCourse = new EventEmitter<ICourse>();
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnInit() {
@@ -70,6 +71,10 @@ export class CourseItemComponent implements OnInit,
 
   onDeleteCourseClick() {
     this.deleteCourse.emit(this.courseItem);
+  }
+
+  editCourse(id: string) {
+    this.router.navigate(['/courses', `${id}`]);
   }
 
 }
