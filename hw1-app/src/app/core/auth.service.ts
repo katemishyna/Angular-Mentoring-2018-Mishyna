@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import { Observable } from 'rxjs/internal/observable';
-import { Subject } from 'rxjs/internal/Subject';
+import {Observable} from 'rxjs/internal/observable';
+import {Subject} from 'rxjs/internal/Subject';
 
 @Injectable()
 export class AuthService {
@@ -11,13 +11,14 @@ export class AuthService {
   private authSubject = new Subject();
 
   constructor(private router: Router) {
-    this.authObs$ =  this.authSubject.asObservable();
+    this.authObs$ = this.authSubject.asObservable();
   }
 
   public logIn(email: string, password: string) {
     this.router.navigate(['courses']);
     this.isAuthenticated = true;
-    localStorage.setItem('userInfo', JSON.stringify({id: email, firstName: 'Kate', lastName: 'Mishyna'}));
+    localStorage.setItem('userInfo',
+      JSON.stringify({id: email, firstName: 'Kate', lastName: 'Mishyna', userToken: this.generateToken(32)}));
     this.authSubject.next();
   }
 
@@ -33,5 +34,14 @@ export class AuthService {
 
   public isAuth() {
     return this.isAuthenticated;
+  }
+
+  private generateToken(n: number) {
+    let chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let token = '';
+    for (let i = 0; i < n; i++) {
+      token += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return token;
   }
 }
