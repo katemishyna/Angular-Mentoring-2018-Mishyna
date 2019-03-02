@@ -1,1 +1,8 @@
-<div class="breadcrumbs" *ngIf="isAuth()">Courses</div>
+<div class="breadcrumbs" *ngIf="isAuth()">
+  <div class="breadcrumbs-item" *ngFor="let breadcrumb of breadcrumbs; last as isLast">
+    <a [routerLink]="breadcrumb.url" *ngIf="!isLast">{{breadcrumb.label}}</a>
+    <span *ngIf="isLast">{{breadcrumb.label}}</span>
+    <span *ngIf="!isLast">/</span>
+  </div>
+</div>
+

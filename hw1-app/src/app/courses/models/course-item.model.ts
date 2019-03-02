@@ -5,7 +5,7 @@ export interface ICourse {
   duration: number;
   description: string;
   topRated: boolean;
-  date?: string;
+  date?: Date;
   authors?: string;
 }
 
@@ -16,7 +16,7 @@ export class Course implements ICourse {
   public duration: number;
   public description: string;
   public topRated: boolean;
-  public date?: string;
+  public date?: Date;
   public authors?: string;
 
   constructor(model?: ICourse) {
@@ -26,7 +26,7 @@ export class Course implements ICourse {
     this.duration = model && model.duration || 0;
     this.description = model && model.description || '';
     this.topRated = model && model.topRated || false;
-    this.date = model && model.date || '';
+    this.date = model && model.date || new Date();
     this.authors = model && model.authors || '';
   }
 }

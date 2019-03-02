@@ -13,7 +13,7 @@
     <div class="course-item__description">{{courseItem.description}}</div>
   </div>
   <div class="course-item__controls">
-    <div class="course-item__controls-button">Edit</div>
+    <div class="course-item__controls-button" (click)="editCourse(courseItem.id)">Edit</div>
     <div class="course-item__controls-button" (click)="onDeleteCourseClick()">Delete</div>
   </div>
 </div>

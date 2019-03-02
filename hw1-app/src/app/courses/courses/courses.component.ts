@@ -39,7 +39,7 @@ export class CoursesComponent implements OnInit {
   }
 
   public addCourse() {
-    this.router.navigate(['/new']);
+    this.router.navigate(['/courses', 'new']);
   }
 
   private initializeCourses() {

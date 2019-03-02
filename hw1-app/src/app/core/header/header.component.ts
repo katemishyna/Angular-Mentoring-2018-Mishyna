@@ -28,6 +28,7 @@ export class HeaderComponent implements OnInit {
   }
 
   public logout() {
+    this.user.userToken = '';
     this.authSvc.logOut();
   }
 }
