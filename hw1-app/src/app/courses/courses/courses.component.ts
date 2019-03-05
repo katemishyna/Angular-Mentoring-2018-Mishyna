@@ -1,6 +1,6 @@
-import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {Router} from '@angular/router';
-import {ICourse} from '../models/course-item.model';
+import {ICourse, Course} from '../models/course-item.model';
 import {SearchPipe} from '../../shared/pipes/search.pipe';
 import {CoursesService} from '../courses.service';
 
@@ -12,13 +12,16 @@ import {CoursesService} from '../courses.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SearchPipe]
 })
+
 export class CoursesComponent implements OnInit {
   public courses: ICourse[] = [];
   public originalCourses: ICourse[] = [];
+  private start = 0;
+  private count = 5;
 
-  constructor(private search: SearchPipe,
-              private coursesSvc: CoursesService,
-              private router: Router) {
+  constructor(private coursesSvc: CoursesService,
+              private router: Router,
+              private ref: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -26,16 +29,25 @@ export class CoursesComponent implements OnInit {
   }
 
   public deleteCourse(course: ICourse) {
-    this.coursesSvc.removeCourse(course);
-    this.courses = this.coursesSvc.getCourses();
+    if (course && course.id) {
+      this.coursesSvc.removeCourse(course, this.start, this.count)
+        .subscribe((data) => {
+          this.courses = this.generateCourses(data);
+        });
+    }
   }
 
   public loadMoreClick() {
-    console.log('Load More Handler');
+    this.start = this.start + 5;
+    this.count = this.count + 5;
+    this.initializeCourses();
   }
 
   public searchCourse(value: string) {
-    this.courses = this.search.transform(this.originalCourses, 'title', value);
+    this.coursesSvc.getCourses(this.start, this.count, value).subscribe((data) => {
+      this.courses = this.generateCourses(data);
+      this.ref.markForCheck();
+    });
   }
 
   public addCourse() {
@@ -43,8 +55,32 @@ export class CoursesComponent implements OnInit {
   }
 
   private initializeCourses() {
-    this.courses = this.coursesSvc.getCourses();
-    this.originalCourses = this.courses.map(item => item);
+    this.coursesSvc.getCourses(this.start, this.count).subscribe((data) => {
+      this.courses = this.generateCourses(data);
+      this.originalCourses = this.courses.map(item => item);
+      this.ref.markForCheck();
+    });
+  }
+
+  private generateCourses(data: any) {
+    const courses: any[] = [];
+    data.forEach((item: any, i: number) => {
+      const d = new Date();
+      const dayDiff = i % 2 === 0 ? (-i * 5) : i * 5;
+      d.setDate(d.getDate() + dayDiff);
+      const courseItem = {
+        id: item.id,
+        title: item.name,
+        description: item.description,
+        topRated: item.isTopRated,
+        creationDate: d,
+        date: item.date,
+        duration: item.length,
+        authors: item.authors
+      };
+      courses.push(new Course(courseItem));
+    });
+    return courses;
   }
 
 

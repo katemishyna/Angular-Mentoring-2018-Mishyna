@@ -22,8 +22,15 @@ export class CoursePageComponent implements OnInit {
   }
 
   public save() {
-    this.coursesService.updateCourse(this.course.id, this.course);
-    this.router.navigate(['/courses']);
+    // update API doesn't work for now
+    // this.coursesService.updateCourse(this.course.id, this.course);
+    if (!this.course.id) {
+      this.coursesService.createCourse(this.course)
+        .subscribe(() => {
+            this.router.navigate(['/courses']);
+          },
+          (error) => alert(error));
+    }
   }
 
   public cancel() {

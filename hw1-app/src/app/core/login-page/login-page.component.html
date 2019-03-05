@@ -1,13 +1,16 @@
 <div class="login-page">
   <div class="login-page__form">
+    <div class="login-page__error" *ngIf="isError">
+      Invalid username or password.
+    </div>
     <div class="login-page__email">
       <span>Email:</span>
-      <input [(ngModel)]="email" type="email">
+      <input [(ngModel)]="login" type="email">
     </div>
     <div class="login-page__password">
       <span>Password:</span>
       <input [(ngModel)]="password" type="password">
     </div>
-    <div class="login-page__button" (click)="login()">Login</div>
+    <div class="login-page__button" (click)="signIn()">Login</div>
   </div>
 </div>
