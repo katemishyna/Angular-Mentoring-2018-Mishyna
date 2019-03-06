@@ -18,7 +18,6 @@ export class HeaderComponent implements OnInit {
       .subscribe(() => {
         this.user = new User();
         if (this.isAuth()) {
-          const temp = this.authSvc.getUserInfo();
           this.authSvc.getUserInfo()
             .subscribe((data: any) => {
                 const user = {
@@ -28,6 +27,7 @@ export class HeaderComponent implements OnInit {
                   userToken: data.fakeToken
                 };
                 this.user = new User(user);
+                localStorage.setItem('user', JSON.stringify(this.user));
                 this.ref.markForCheck();
               },
               () => {
@@ -41,6 +41,8 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    const loggedUser: any = JSON.parse(localStorage.getItem('user') || '');
+    this.user = loggedUser && loggedUser.userToken ? new User(loggedUser) : new User();
   }
 
   public isAuth() {

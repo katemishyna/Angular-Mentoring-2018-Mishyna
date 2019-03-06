@@ -8,7 +8,7 @@ const BASE_URL = 'http://localhost:3004';
 
 @Injectable()
 export class AuthService {
-  public isAuthenticated = false;
+  public isAuthenticated: boolean;
   public authObs$: Observable<any>;
   public currentToken = '';
 
@@ -17,6 +17,8 @@ export class AuthService {
   constructor(private router: Router,
               private http: HttpClient) {
     this.authObs$ = this.authSubject.asObservable();
+    const loggedUser = JSON.parse(localStorage.getItem('user') || '');
+    this.isAuthenticated = !!(loggedUser && loggedUser.userToken);
   }
 
   public logIn(login: string, password: string) {
@@ -29,6 +31,7 @@ export class AuthService {
   }
 
   public logOut() {
+    localStorage.clear();
     this.router.navigate(['login']);
     this.isAuthenticated = false;
     this.currentToken = '';

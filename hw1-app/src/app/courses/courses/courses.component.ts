@@ -30,10 +30,14 @@ export class CoursesComponent implements OnInit {
 
   public deleteCourse(course: ICourse) {
     if (course && course.id) {
-      this.coursesSvc.removeCourse(course, this.start, this.count)
-        .subscribe((data) => {
+      const deleteResult = this.coursesSvc.removeCourse(course, this.start, this.count);
+      if (deleteResult !== undefined) {
+        deleteResult.subscribe((data) => {
           this.courses = this.generateCourses(data);
+          this.ref.markForCheck();
         });
+      }
+
     }
   }
 
