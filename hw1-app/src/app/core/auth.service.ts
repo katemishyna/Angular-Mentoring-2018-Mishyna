@@ -17,7 +17,7 @@ export class AuthService {
   constructor(private router: Router,
               private http: HttpClient) {
     this.authObs$ = this.authSubject.asObservable();
-    const loggedUser = JSON.parse(localStorage.getItem('user') || '');
+    const loggedUser = localStorage.getItem('user') && JSON.parse(localStorage.getItem('user') || '');
     this.isAuthenticated = !!(loggedUser && loggedUser.userToken);
   }
 
