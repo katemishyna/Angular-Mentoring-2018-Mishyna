@@ -2,6 +2,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  &__error {
+    color: red;
+  }
   &__form {
     border: 1px solid grey;
     border-radius: 5px;

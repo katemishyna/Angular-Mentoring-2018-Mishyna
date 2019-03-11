@@ -1,20 +1,38 @@
 import {Injectable} from '@angular/core';
-import {ICourse, Course} from './models/course-item.model';
+import {HttpClient} from '@angular/common/http';
+
+import {ICourse} from './models/course-item.model';
+import {mergeMap} from 'rxjs/internal/operators';
+
+const BASE_URL = 'http://localhost:3004';
 
 @Injectable()
 export class CoursesService {
   public courses: ICourse[] = [];
 
-  constructor() {
-    this.initializeCourses();
+  constructor(private http: HttpClient) {
   }
 
-  public getCourses() {
-    return this.courses;
+  public getCourses(start: number, count: number, textFragment: string = '') {
+    return this.http.get(`${BASE_URL}/courses`, {
+      params: {
+        start: start.toString(),
+        count: count.toString(),
+        textFragment
+      }
+    });
   }
 
-  public createCourse(courseData: ICourse) {
-    this.courses.push(new Course(courseData));
+  public createCourse(course: ICourse) {
+    const courseData = {
+      name: course.title || '',
+      description: course.description || '',
+      isTopRated: false,
+      authors: course.authors,
+      length: course.duration,
+      date: course.date
+    };
+    return this.http.post(`${BASE_URL}/courses`, courseData);
   }
 
   public getCourseById(courseId: string) {
@@ -26,33 +44,12 @@ export class CoursesService {
     Object.assign(this.courses[courseIndex], newCourse);
   }
 
-  public removeCourse(course: ICourse) {
+  public removeCourse(course: ICourse, start: number, count: number) {
     const r = confirm('Do you really want to delete this course?');
-    if (r === true) {
-      const courseIndex = this.courses.findIndex((item) => item.id === course.id);
-      if (courseIndex !== -1) {
-        this.courses.splice(courseIndex, 1);
-      }
-    }
-  }
-
-  private initializeCourses() {
-    for (let i = 1; i < 5; i++) {
-      const d = new Date();
-      const dayDiff = i % 2 === 0 ? (-i * 5) : i * 5;
-      d.setDate(d.getDate() + dayDiff);
-      this.courses.push(new Course({
-        id: `id${i}`,
-        title: `Video Course ${i}`,
-        creationDate: d,
-        duration: 33 * i,
-        description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit` +
-        `sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim`
-        + `veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea `,
-        topRated: i % 2 === 0,
-        authors: `Author${i}`,
-        date: d
-      }));
+    if (r === true && course && course.id) {
+      return this.http.delete(`${BASE_URL}/courses/${course.id}`).pipe(
+        mergeMap(() => this.getCourses(start, count))
+      );
     }
   }
 }

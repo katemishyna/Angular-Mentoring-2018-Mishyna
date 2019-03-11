@@ -2,46 +2,50 @@ import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs/internal/observable';
 import {Subject} from 'rxjs/internal/Subject';
+import {HttpClient} from '@angular/common/http';
+
+const BASE_URL = 'http://localhost:3004';
 
 @Injectable()
 export class AuthService {
-  public isAuthenticated = false;
+  public isAuthenticated: boolean;
   public authObs$: Observable<any>;
+  public currentToken = '';
 
   private authSubject = new Subject();
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private http: HttpClient) {
     this.authObs$ = this.authSubject.asObservable();
+    const loggedUser = localStorage.getItem('user') && JSON.parse(localStorage.getItem('user') || '');
+    this.isAuthenticated = !!(loggedUser && loggedUser.userToken);
   }
 
-  public logIn(email: string, password: string) {
-    this.router.navigate(['courses']);
-    this.isAuthenticated = true;
-    localStorage.setItem('userInfo',
-      JSON.stringify({id: email, firstName: 'Kate', lastName: 'Mishyna', userToken: this.generateToken(32)}));
+  public logIn(login: string, password: string) {
+    return this.http.post(`${BASE_URL}/auth/login`, {login, password});
+  }
+
+  public sendUserInfoToHeader(fakeToken: string) {
+    this.currentToken = fakeToken;
     this.authSubject.next();
   }
 
   public logOut() {
+    localStorage.clear();
     this.router.navigate(['login']);
     this.isAuthenticated = false;
-    localStorage.removeItem('userInfo');
+    this.currentToken = '';
+  }
+
+  public getToken() {
+    return this.currentToken;
   }
 
   public getUserInfo() {
-    return JSON.parse(localStorage.getItem('userInfo') || '');
+    return this.http.post(`${BASE_URL}/auth/userinfo`, {});
   }
 
   public isAuth() {
     return this.isAuthenticated;
-  }
-
-  private generateToken(n: number) {
-    let chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let token = '';
-    for (let i = 0; i < n; i++) {
-      token += chars[Math.floor(Math.random() * chars.length)];
-    }
-    return token;
   }
 }

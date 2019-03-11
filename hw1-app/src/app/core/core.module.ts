@@ -1,4 +1,5 @@
 import {NgModule, Optional, SkipSelf} from '@angular/core';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {HeaderComponent} from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
 import {BreadcrumbsComponent} from './breadcrumbs/breadcrumbs.component';
@@ -11,6 +12,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {NotFoundPageComponent} from './not-found-page/not-found-page.component';
 import {RouterModule} from '@angular/router';
+import {TokenInterceptor} from './token.interceptor';
 
 @NgModule({
   imports: [
@@ -18,7 +20,11 @@ import {RouterModule} from '@angular/router';
     CommonModule,
     FormsModule,
     RouterModule],
-  providers: [AuthService],
+  providers: [AuthService, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  }],
   declarations: [
     HeaderComponent,
     FooterComponent,

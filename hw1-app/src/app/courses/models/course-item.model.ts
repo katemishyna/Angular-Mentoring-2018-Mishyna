@@ -6,7 +6,7 @@ export interface ICourse {
   description: string;
   topRated: boolean;
   date?: Date;
-  authors?: string;
+  authors?: any[];
 }
 
 export class Course implements ICourse {
@@ -17,7 +17,7 @@ export class Course implements ICourse {
   public description: string;
   public topRated: boolean;
   public date?: Date;
-  public authors?: string;
+  public authors?: any[];
 
   constructor(model?: ICourse) {
     this.id = model && model.id || '';
@@ -27,7 +27,7 @@ export class Course implements ICourse {
     this.description = model && model.description || '';
     this.topRated = model && model.topRated || false;
     this.date = model && model.date || new Date();
-    this.authors = model && model.authors || '';
+    this.authors = model && model.authors || [];
   }
 }
 
