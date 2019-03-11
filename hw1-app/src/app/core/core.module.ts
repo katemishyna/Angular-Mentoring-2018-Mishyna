@@ -13,6 +13,9 @@ import {FormsModule} from '@angular/forms';
 import {NotFoundPageComponent} from './not-found-page/not-found-page.component';
 import {RouterModule} from '@angular/router';
 import {TokenInterceptor} from './token.interceptor';
+import {HttpListener} from './http.interceptor';
+import {LoaderComponent} from './loader/loader.component';
+import {LoaderService} from './loader.service';
 
 @NgModule({
   imports: [
@@ -20,24 +23,31 @@ import {TokenInterceptor} from './token.interceptor';
     CommonModule,
     FormsModule,
     RouterModule],
-  providers: [AuthService, {
+  providers: [AuthService, LoaderService, {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
     multi: true
-  }],
+  },
+    AuthService, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpListener,
+      multi: true
+    }],
   declarations: [
     HeaderComponent,
     FooterComponent,
     BreadcrumbsComponent,
     LogoComponent,
     LoginPageComponent,
-    NotFoundPageComponent],
+    NotFoundPageComponent,
+    LoaderComponent],
   exports: [
     HeaderComponent,
     FooterComponent,
     BreadcrumbsComponent,
     LogoComponent,
-    LoginPageComponent]
+    LoginPageComponent,
+    LoaderComponent]
 })
 
 export class CoreModule {

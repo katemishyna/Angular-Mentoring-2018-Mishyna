@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs/internal/observable';
 import {Subject} from 'rxjs/internal/Subject';
 import {HttpClient} from '@angular/common/http';
+import {mergeMap} from 'rxjs/internal/operators';
 
 const BASE_URL = 'http://localhost:3004';
 
@@ -22,12 +23,16 @@ export class AuthService {
   }
 
   public logIn(login: string, password: string) {
-    return this.http.post(`${BASE_URL}/auth/login`, {login, password});
+    return this.http.post(`${BASE_URL}/auth/login`, {login, password}).pipe(
+      mergeMap((data: any) => {
+        this.currentToken = data.token
+        return this.getUserInfo();
+      })
+    );
   }
 
-  public sendUserInfoToHeader(fakeToken: string) {
-    this.currentToken = fakeToken;
-    this.authSubject.next();
+  public sendUserInfoToHeader(userData: string) {
+    this.authSubject.next(userData);
   }
 
   public logOut() {

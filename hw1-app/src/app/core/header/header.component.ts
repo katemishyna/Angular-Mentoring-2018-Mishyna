@@ -15,29 +15,25 @@ export class HeaderComponent implements OnInit {
   constructor(private authSvc: AuthService,
               private ref: ChangeDetectorRef) {
     this.authSvc.authObs$
-      .subscribe(() => {
-        this.user = new User();
-        if (this.isAuth()) {
-          this.authSvc.getUserInfo()
-            .subscribe((data: any) => {
-                const user = {
-                  id: data.id,
-                  firstName: data && data.name && data.name.first,
-                  lastName: data && data.name && data.name.last,
-                  userToken: data.fakeToken
-                };
-                this.user = new User(user);
-                localStorage.setItem('user', JSON.stringify(this.user));
-                this.ref.markForCheck();
-              },
-              () => {
-                this.authSvc.logOut();
-                this.ref.markForCheck();
-              });
-
-
+      .subscribe((data: any) => {
+          this.user = new User();
+          if (this.isAuth()) {
+            const user = {
+              id: data.id,
+              firstName: data && data.name && data.name.first,
+              lastName: data && data.name && data.name.last,
+              userToken: data.fakeToken
+            };
+            this.user = new User(user);
+            localStorage.setItem('user', JSON.stringify(this.user));
+            this.ref.markForCheck();
+          }
+        },
+        () => {
+          this.authSvc.logOut();
+          this.ref.markForCheck();
         }
-      });
+      );
   }
 
   ngOnInit() {

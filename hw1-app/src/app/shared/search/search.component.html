@@ -1,9 +1,9 @@
 <div class="search">
   <input
     [(ngModel)]="searchStr"
+    (keyup)="search()"
     class="search__input"
     type="text"
     placeholder="Text to Search">
-  <div class="search__button" (click)="search()"> Search </div>
 </div>
 

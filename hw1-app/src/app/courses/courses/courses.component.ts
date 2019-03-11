@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {ICourse, Course} from '../models/course-item.model';
 import {SearchPipe} from '../../shared/pipes/search.pipe';
 import {CoursesService} from '../courses.service';
+import {Subject} from 'rxjs';
 
 
 @Component({
@@ -16,12 +17,18 @@ import {CoursesService} from '../courses.service';
 export class CoursesComponent implements OnInit {
   public courses: ICourse[] = [];
   public originalCourses: ICourse[] = [];
+  public searchTerm$ = new Subject<{start: number, count: number, textFragment: string}>();
   private start = 0;
   private count = 5;
 
   constructor(private coursesSvc: CoursesService,
               private router: Router,
               private ref: ChangeDetectorRef) {
+    this.coursesSvc.search(this.searchTerm$)
+      .subscribe(results => {
+        this.courses = this.generateCourses(results);
+        this.ref.markForCheck()
+      });
   }
 
   ngOnInit() {
@@ -48,10 +55,7 @@ export class CoursesComponent implements OnInit {
   }
 
   public searchCourse(value: string) {
-    this.coursesSvc.getCourses(this.start, this.count, value).subscribe((data) => {
-      this.courses = this.generateCourses(data);
-      this.ref.markForCheck();
-    });
+    this.searchTerm$.next({start: this.start, count: this.count, textFragment: value});
   }
 
   public addCourse() {
