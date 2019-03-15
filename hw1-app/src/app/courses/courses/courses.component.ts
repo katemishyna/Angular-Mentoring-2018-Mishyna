@@ -55,7 +55,14 @@ export class CoursesComponent implements OnInit {
   }
 
   public searchCourse(value: string) {
-    this.searchTerm$.next({start: this.start, count: this.count, textFragment: value});
+    if (value.length > 2) {
+      this.searchTerm$.next({start: this.start, count: this.count, textFragment: value});
+    }
+
+    if (!value) {
+      this.initializeCourses();
+    }
+
   }
 
   public addCourse() {

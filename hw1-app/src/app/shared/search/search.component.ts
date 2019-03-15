@@ -18,8 +18,6 @@ export class SearchComponent implements OnInit {
   }
 
   public search() {
-    if (this.searchStr.length > 2) {
       this.searchCourse.emit(this.searchStr);
-    }
   }
 }
