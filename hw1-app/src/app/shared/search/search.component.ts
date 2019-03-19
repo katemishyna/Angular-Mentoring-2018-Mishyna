@@ -18,6 +18,6 @@ export class SearchComponent implements OnInit {
   }
 
   public search() {
-    this.searchCourse.emit(this.searchStr);
+      this.searchCourse.emit(this.searchStr);
   }
 }

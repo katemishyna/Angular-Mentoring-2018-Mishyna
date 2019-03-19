@@ -2,7 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
 import {ICourse} from './models/course-item.model';
-import {mergeMap} from 'rxjs/internal/operators';
+import {mergeMap, distinctUntilChanged, switchMap, debounceTime} from 'rxjs/internal/operators';
+import {Observable} from "rxjs";
 
 const BASE_URL = 'http://localhost:3004';
 
@@ -21,6 +22,15 @@ export class CoursesService {
         textFragment
       }
     });
+  }
+
+  public search(searchTerm: Observable<{start: number, count: number, textFragment: string}>) {
+    return searchTerm
+      .pipe(debounceTime(1000),
+        distinctUntilChanged(),
+        switchMap(searchTerm => this.getCourses(searchTerm.start, searchTerm.count, searchTerm.textFragment))
+      )
+
   }
 
   public createCourse(course: ICourse) {

@@ -27,11 +27,9 @@ export class LoginPageComponent implements OnInit {
     this.ref.markForCheck();
     this.authSvc
       .logIn(this.login, this.password)
-      .subscribe((data: any) => {
-          const firstName = data && data.name && data.name.first || '';
-          const lastName = data && data.name && data.name.last || '';
+      .subscribe((userData: any) => {
           this.authSvc.isAuthenticated = true;
-          this.authSvc.sendUserInfoToHeader(data.token);
+          this.authSvc.sendUserInfoToHeader(userData);
           this.router.navigate(['courses'])
         },
         (error) => {

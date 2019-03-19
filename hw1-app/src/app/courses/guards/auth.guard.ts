@@ -1,5 +1,5 @@
 import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router} from '@angular/router';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {AuthService} from '../../core/auth.service';
 
 export class CanActivateAuthGuard implements CanActivate {
@@ -10,10 +10,10 @@ export class CanActivateAuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
     if (this.authService.isAuth()) {
-      return true;
+      return of(true);
     } else {
       this.router.navigate(['/login']);
-      return false;
+      return of(false);
     }
   }
 }
