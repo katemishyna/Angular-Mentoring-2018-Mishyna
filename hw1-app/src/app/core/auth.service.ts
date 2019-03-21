@@ -1,49 +1,37 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import {Observable} from 'rxjs/internal/observable';
-import {Subject} from 'rxjs/internal/Subject';
 import {HttpClient} from '@angular/common/http';
 import {mergeMap} from 'rxjs/internal/operators';
+import {selectAuthStatus} from '../store/selectors/auth.selectors';
+import {select, Store} from '@ngrx/store';
+import {IAppState} from '../store/states/index';
+import {LoginSuccess} from '../store/actions/auth.actions';
 
 const BASE_URL = 'http://localhost:3004';
 
 @Injectable()
 export class AuthService {
-  public isAuthenticated: boolean;
-  public authObs$: Observable<any>;
-  public currentToken = '';
-
-  private authSubject = new Subject();
+  public isAuthenticated: boolean = false;
+  public authInfo$ = this.store.pipe(select(selectAuthStatus));
 
   constructor(private router: Router,
-              private http: HttpClient) {
-    this.authObs$ = this.authSubject.asObservable();
-    const loggedUser = localStorage.getItem('user') && JSON.parse(localStorage.getItem('user') || '');
-    this.isAuthenticated = !!(loggedUser && loggedUser.userToken);
+              private http: HttpClient,
+              private store: Store<IAppState>) {
+    this.subscribeOnAuthStatus();
+    this.checkAuthState();
   }
 
   public logIn(login: string, password: string) {
     return this.http.post(`${BASE_URL}/auth/login`, {login, password}).pipe(
       mergeMap((data: any) => {
-        this.currentToken = data.token
+        localStorage.setItem('token', JSON.stringify(data.token));
         return this.getUserInfo();
       })
     );
   }
 
-  public sendUserInfoToHeader(userData: string) {
-    this.authSubject.next(userData);
-  }
-
-  public logOut() {
-    localStorage.clear();
-    this.router.navigate(['login']);
-    this.isAuthenticated = false;
-    this.currentToken = '';
-  }
-
   public getToken() {
-    return this.currentToken;
+    return localStorage.getItem('token') && JSON.parse(localStorage.getItem('token') || '');
   }
 
   public getUserInfo() {
@@ -52,5 +40,18 @@ export class AuthService {
 
   public isAuth() {
     return this.isAuthenticated;
+  }
+
+  private checkAuthState() {
+    const loggedUser = localStorage.getItem('user') && JSON.parse(localStorage.getItem('user') || '');
+    if (loggedUser && loggedUser.userToken) {
+      this.store.dispatch(new LoginSuccess(loggedUser));
+    }
+  }
+
+  private subscribeOnAuthStatus() {
+    this.authInfo$.subscribe((isAuth: boolean) => {
+      this.isAuthenticated = isAuth;
+    });
   }
 }
