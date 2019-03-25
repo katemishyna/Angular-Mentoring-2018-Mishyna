@@ -1,9 +1,14 @@
-import {Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy} from '@angular/core';
 import {Router} from '@angular/router';
 import {ICourse, Course} from '../models/course-item.model';
 import {SearchPipe} from '../../shared/pipes/search.pipe';
 import {CoursesService} from '../courses.service';
 import {Subject} from 'rxjs';
+import {IAppState} from '../../store/states/index';
+import {Store, select} from '@ngrx/store';
+import {GetCourses, DeleteCourse} from '../../store/actions/courses.actions';
+import {selectCoursesList} from '../../store/selectors/courses.selectors';
+import {takeUntil} from 'rxjs/internal/operators';
 
 
 @Component({
@@ -14,44 +19,47 @@ import {Subject} from 'rxjs';
   providers: [SearchPipe]
 })
 
-export class CoursesComponent implements OnInit {
+export class CoursesComponent implements OnInit, OnDestroy {
   public courses: ICourse[] = [];
-  public originalCourses: ICourse[] = [];
   public searchTerm$ = new Subject<{start: number, count: number, textFragment: string}>();
+  public coursesList$ = this.store.pipe(select(selectCoursesList));
+  private unsubscribe: Subject<any> = new Subject();
   private start = 0;
   private count = 5;
 
   constructor(private coursesSvc: CoursesService,
               private router: Router,
-              private ref: ChangeDetectorRef) {
+              private ref: ChangeDetectorRef,
+              private store: Store<IAppState>) {
     this.coursesSvc.search(this.searchTerm$)
-      .subscribe(results => {
-        this.courses = this.generateCourses(results);
+      .pipe(takeUntil(this.unsubscribe)).subscribe(results => {
+        this.courses = this.coursesSvc.generateCourses(results);
         this.ref.markForCheck()
       });
   }
 
   ngOnInit() {
-    this.initializeCourses();
+    this.subscribeOnCoursesChange();
+    this.store.dispatch(new GetCourses({start: this.start, count: this.count}));
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   public deleteCourse(course: ICourse) {
-    if (course && course.id) {
-      const deleteResult = this.coursesSvc.removeCourse(course, this.start, this.count);
-      if (deleteResult !== undefined) {
-        deleteResult.subscribe((data) => {
-          this.courses = this.generateCourses(data);
-          this.ref.markForCheck();
-        });
-      }
-
+    const r = confirm('Do you really want to delete this course?');
+    if (r === true && course.id) {
+      this.store.dispatch(new DeleteCourse({courseId: course.id, start: this.start, count: this.count}))
     }
   }
+
 
   public loadMoreClick() {
     this.start = this.start + 5;
     this.count = this.count + 5;
-    this.initializeCourses();
+    this.store.dispatch(new GetCourses({start: this.start, count: this.count}));
   }
 
   public searchCourse(value: string) {
@@ -60,7 +68,7 @@ export class CoursesComponent implements OnInit {
     }
 
     if (!value) {
-      this.initializeCourses();
+      this.store.dispatch(new GetCourses({start: this.start, count: this.count}));
     }
 
   }
@@ -69,34 +77,10 @@ export class CoursesComponent implements OnInit {
     this.router.navigate(['/courses', 'new']);
   }
 
-  private initializeCourses() {
-    this.coursesSvc.getCourses(this.start, this.count).subscribe((data) => {
-      this.courses = this.generateCourses(data);
-      this.originalCourses = this.courses.map(item => item);
+  private subscribeOnCoursesChange() {
+    this.coursesList$.pipe(takeUntil(this.unsubscribe)).subscribe((courses: any) => {
+      this.courses = courses;
       this.ref.markForCheck();
-    });
+    })
   }
-
-  private generateCourses(data: any) {
-    const courses: any[] = [];
-    data.forEach((item: any, i: number) => {
-      const d = new Date();
-      const dayDiff = i % 2 === 0 ? (-i * 5) : i * 5;
-      d.setDate(d.getDate() + dayDiff);
-      const courseItem = {
-        id: item.id,
-        title: item.name,
-        description: item.description,
-        topRated: item.isTopRated,
-        creationDate: d,
-        date: item.date,
-        duration: item.length,
-        authors: item.authors
-      };
-      courses.push(new Course(courseItem));
-    });
-    return courses;
-  }
-
-
 }

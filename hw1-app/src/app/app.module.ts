@@ -13,6 +13,7 @@ import {appReducers} from './store/reducers/index';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {AuthEffects} from './store/effects/auth.effects';
+import {CoursesEffects} from "./store/effects/courses.effects";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import {AuthEffects} from './store/effects/auth.effects';
     BrowserModule,
     StoreModule.forRoot(appReducers),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([AuthEffects]),
+    EffectsModule.forRoot([AuthEffects, CoursesEffects]),
     HttpClientModule,
     SharedModule,
     CoreModule,
