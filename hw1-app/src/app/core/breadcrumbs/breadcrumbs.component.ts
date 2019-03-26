@@ -33,28 +33,28 @@ export class BreadcrumbsComponent implements OnInit {
   }
 
   private getBreadcrumbs(data: any) {
-    const currentFullUrl = data.urlAfterRedirects;
-    const urls = currentFullUrl.split('/').filter((url: string) => !!url);
-    if (urls[0] && urls[0] === 'courses') {
-      urls.forEach((url: any, index: number) => {
-        let label = '';
-        if (index === 0) {
-          label = 'Courses';
-        } else if (index === 1) {
-          const currentCourse = url && this.coursesService.getCourseById(url);
-          if (currentCourse) {
-            label = currentCourse.title;
-          } else if (url.toLocaleLowerCase() === 'new') {
-            label = 'New Course'
-          }
-        }
-        const breadcrumbItem = {
-          url: urls.slice(0, index + 1),
-          label
-        };
-        this.breadcrumbs.push(breadcrumbItem);
-      });
-    }
+    // const currentFullUrl = data.urlAfterRedirects;
+    // const urls = currentFullUrl.split('/').filter((url: string) => !!url);
+    // if (urls[0] && urls[0] === 'courses') {
+    //   urls.forEach((url: any, index: number) => {
+    //     let label = '';
+    //     if (index === 0) {
+    //       label = 'Courses';
+    //     } else if (index === 1) {
+    //       const currentCourse = url && this.coursesService.getCourseById(url);
+    //       if (currentCourse) {
+    //         label = currentCourse.title;
+    //       } else if (url.toLocaleLowerCase() === 'new') {
+    //         label = 'New Course'
+    //       }
+    //     }
+    //     const breadcrumbItem = {
+    //       url: urls.slice(0, index + 1),
+    //       label
+    //     };
+    //     this.breadcrumbs.push(breadcrumbItem);
+    //   });
+    // }
   }
 
 }

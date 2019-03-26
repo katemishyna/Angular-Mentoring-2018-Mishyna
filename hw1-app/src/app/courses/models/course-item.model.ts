@@ -9,6 +9,16 @@ export interface ICourse {
   authors?: any[];
 }
 
+export interface ICoursePayload {
+  id: string;
+  name: string;
+  description: string;
+  isTopRated: boolean;
+  date?: Date;
+  authors?: any[];
+  length: number;
+}
+
 export class Course implements ICourse {
   public id: string;
   public title: string;

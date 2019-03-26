@@ -7,6 +7,13 @@ import {SharedModule} from './shared/shared.module';
 import {CoreModule} from './core/core.module';
 import {CoursesModule} from './courses/courses.module';
 import {AppRoutingModule} from './app-routing.module';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {environment} from '../environments/environment';
+import {appReducers} from './store/reducers/index';
+import {StoreModule} from '@ngrx/store';
+import {EffectsModule} from '@ngrx/effects';
+import {AuthEffects} from './store/effects/auth.effects';
+import {CoursesEffects} from "./store/effects/courses.effects";
 
 @NgModule({
   declarations: [
@@ -14,6 +21,9 @@ import {AppRoutingModule} from './app-routing.module';
   ],
   imports: [
     BrowserModule,
+    StoreModule.forRoot(appReducers),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([AuthEffects, CoursesEffects]),
     HttpClientModule,
     SharedModule,
     CoreModule,
