@@ -16,7 +16,7 @@ import {takeUntil} from 'rxjs/internal/operators';
 export class CoursePageComponent implements OnInit, OnDestroy {
 
   public course: ICourse = new Course();
-  private unsubscribe: Subject<any> = new Subject();
+  private unsubscribe: Subject<void> = new Subject();
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
@@ -33,7 +33,7 @@ export class CoursePageComponent implements OnInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  public save() {
+  public saveOrUpdate() {
     if (!this.course.id) {
       this.store.dispatch(new CreateCourse(this.course));
     } else {

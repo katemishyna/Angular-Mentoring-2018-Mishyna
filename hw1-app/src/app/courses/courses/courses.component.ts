@@ -1,6 +1,6 @@
 import {Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy} from '@angular/core';
 import {Router} from '@angular/router';
-import {ICourse, Course} from '../models/course-item.model';
+import {ICourse, Course, ICoursePayload} from '../models/course-item.model';
 import {SearchPipe} from '../../shared/pipes/search.pipe';
 import {CoursesService} from '../courses.service';
 import {Subject} from 'rxjs';
@@ -32,10 +32,10 @@ export class CoursesComponent implements OnInit, OnDestroy {
               private ref: ChangeDetectorRef,
               private store: Store<IAppState>) {
     this.coursesSvc.search(this.searchTerm$)
-      .pipe(takeUntil(this.unsubscribe)).subscribe(results => {
-        this.courses = this.coursesSvc.generateCourses(results);
-        this.ref.markForCheck()
-      });
+      .pipe(takeUntil(this.unsubscribe)).subscribe((results: ICoursePayload[]) => {
+      this.courses = this.coursesSvc.generateCourses(results);
+      this.ref.markForCheck()
+    });
   }
 
   ngOnInit() {

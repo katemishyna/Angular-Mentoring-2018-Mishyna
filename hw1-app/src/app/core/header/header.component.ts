@@ -7,6 +7,7 @@ import {Logout} from '../../store/actions/auth.actions';
 import {selectAllAuthInfo} from '../../store/selectors/auth.selectors';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/internal/operators';
+import {IAuthState} from "../../store/states/auth.state";
 
 @Component({
   selector: 'header',
@@ -43,7 +44,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   private subscribeOnAuthInfo() {
-    this.authInfo$.pipe(takeUntil(this.unsubscribe)).subscribe((data: any) => {
+    this.authInfo$.pipe(takeUntil(this.unsubscribe)).subscribe((data: IAuthState) => {
       this.user = new User();
       if (data && data.isAuthenticated && data.user) {
         this.user = data.user;

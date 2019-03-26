@@ -8,6 +8,7 @@ import {
   ECoursesActions, UpdateCoursesList, GetCourses, DeleteCourse, CreateCourse,
   UpdateCourse
 } from '../actions/courses.actions';
+import {ICoursePayload} from "../../courses/models/course-item.model";
 
 @Injectable()
 export class CoursesEffects {
@@ -23,7 +24,7 @@ export class CoursesEffects {
     switchMap(payload => {
       return this.coursesService.getCourses(payload.start, payload.count)
         .pipe(
-          map((coursesData: any) => {
+          map((coursesData: ICoursePayload[]) => {
             const courses = this.coursesService.generateCourses(coursesData);
             return new UpdateCoursesList(courses);
           })

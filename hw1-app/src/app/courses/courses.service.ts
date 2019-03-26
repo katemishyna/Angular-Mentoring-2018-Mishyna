@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
-import {ICourse, Course} from './models/course-item.model';
-import {mergeMap, distinctUntilChanged, switchMap, debounceTime} from 'rxjs/internal/operators';
+import {ICourse, Course, ICoursePayload} from './models/course-item.model';
+import {mergeMap, distinctUntilChanged, switchMap, debounceTime, map} from 'rxjs/internal/operators';
 import {Observable} from 'rxjs';
 
 const BASE_URL = 'http://localhost:3004';
@@ -14,8 +14,8 @@ export class CoursesService {
   constructor(private http: HttpClient) {
   }
 
-  public getCourses(start: number, count: number, textFragment: string = '') {
-    return this.http.get(`${BASE_URL}/courses`, {
+  public getCourses(start: number, count: number, textFragment: string = ''): Observable<ICoursePayload[]> {
+    return this.http.get<ICoursePayload[]>(`${BASE_URL}/courses`, {
       params: {
         start: start.toString(),
         count: count.toString(),
@@ -24,7 +24,7 @@ export class CoursesService {
     });
   }
 
-  public search(searchTerm: Observable<{start: number, count: number, textFragment: string}>) {
+  public search(searchTerm: Observable<{start: number, count: number, textFragment: string}>): Observable<ICoursePayload[]> {
     return searchTerm
       .pipe(debounceTime(1000),
         distinctUntilChanged(),
@@ -52,13 +52,11 @@ export class CoursesService {
     );
   }
 
-  public generateCourses(data: any) {
-    const courses: any[] = [];
-    data.forEach((item: any, i: number) => {
+  public generateCourses(data: ICoursePayload[]) {
+    return data.map((item: any, i: number) => {
       const courseItem = this.generateOneCourse(item, i);
-      courses.push(new Course(courseItem));
+      return new Course(courseItem);
     });
-    return courses;
   }
 
   public generateOneCourse(courseData: any, i = 0) {

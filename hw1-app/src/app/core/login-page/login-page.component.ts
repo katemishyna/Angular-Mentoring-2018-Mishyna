@@ -17,7 +17,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   public password = '';
   public isError = false;
   public authResult$ = this.store.pipe(select(selectAuthResult));
-  private unsubscribe: Subject<any> = new Subject();
+  private unsubscribe: Subject<void> = new Subject();
 
   constructor(private ref: ChangeDetectorRef,
               private store: Store<IAppState>) {
