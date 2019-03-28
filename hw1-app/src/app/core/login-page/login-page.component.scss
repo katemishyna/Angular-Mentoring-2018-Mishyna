@@ -1,9 +1,10 @@
 .login-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   &__error {
     color: red;
+    font-size: 10px;
   }
   &__form {
     border: 1px solid grey;
@@ -28,5 +29,8 @@
   &__password {
     display: flex;
     flex-direction: column;
+  }
+  .is-invalid {
+    border: 1px solid red;
   }
 }

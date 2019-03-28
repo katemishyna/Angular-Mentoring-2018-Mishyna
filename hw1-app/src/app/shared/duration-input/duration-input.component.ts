@@ -1,23 +1,52 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, forwardRef} from '@angular/core';
+import {NG_VALUE_ACCESSOR, ControlValueAccessor} from "@angular/forms";
+
+const DURATION_INPUT_VALUE_ACCESSOR = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => DurationInputComponent),
+  multi: true
+};
 
 @Component({
   selector: 'duration-input',
   templateUrl: './duration-input.component.html',
-  styleUrls: ['./duration-input.component.scss']
+  styleUrls: ['./duration-input.component.scss'],
+  providers: [DURATION_INPUT_VALUE_ACCESSOR]
 })
-export class DurationInputComponent implements OnInit {
+export class DurationInputComponent implements ControlValueAccessor {
 
-  @Input() duration: number = 0;
-  @Output() durationChange = new EventEmitter<number>();
+  @Input() public error: boolean = false;
+  public currentValue: string = '';
 
-  constructor() { }
+  public set value(newValue: string) {
+    this.currentValue = newValue;
+    this.onChange(newValue);
 
-  ngOnInit() {
   }
 
-  public onDurationChange(newDuration: number) {
-    this.duration = newDuration;
-    this.durationChange.emit(this.duration);
+  public get value() {
+    return this.currentValue;
+  }
+
+  public onChange = (value: any) => {
+    // onChange;
+  }
+  public onTouched = (value: any) => {
+    // onTouched
+  }
+
+  public writeValue(value: any): void {
+    if (value !== this.currentValue) {
+      this.currentValue = value;
+    }
+  }
+
+  public registerOnChange(fn: any) {
+    this.onChange = fn;
+  }
+
+  public registerOnTouched(fn: any): void {
+    this.onTouched = fn;
   }
 
 }

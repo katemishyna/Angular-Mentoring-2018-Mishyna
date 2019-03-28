@@ -1,5 +1,5 @@
 <input type="number" size="15" min="0"
-       [ngModel]="duration"
-       onkeypress="return event.charCode != 45"
-       (ngModelChange)="onDurationChange($event)">
-{{duration|duration}}
+       [ngClass]="{'is-invalid':error}"
+       [(ngModel)]="value"
+       onkeypress="return event.charCode != 45">
+{{value|duration}}

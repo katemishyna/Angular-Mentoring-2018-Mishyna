@@ -69,7 +69,7 @@ export class CoursesService {
       description: courseData.description,
       topRated: courseData.isTopRated,
       creationDate: d,
-      date: courseData.date,
+      date: new Date(courseData.date),
       duration: courseData.length,
       authors: courseData.authors
     };
