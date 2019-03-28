@@ -1,16 +1,25 @@
 <div class="login-page">
-  <div class="login-page__form">
-    <div class="login-page__error" *ngIf="isError">
-      Invalid username or password.
+  <form [formGroup]="loginForm" (ngSubmit)="signIn()" class="login-page__form">
+    <div *ngIf="loginForm && loginForm.errors && loginForm.errors.isLoginFailed"
+         class="login-page__error">Invalid User or Password Failed</div>
+    <div class="form-group login-page__email">
+      <label>Login</label>
+      <div *ngIf="submitted && f.login.errors" class="login-page__error">
+        <div *ngIf="f.login.errors.required">Login is required</div>
+      </div>
+      <input type="text" formControlName="login" class="form-control"
+             [ngClass]="{ 'is-invalid': submitted && f.login.errors }"/>
     </div>
-    <div class="login-page__email">
-      <span>Email:</span>
-      <input [(ngModel)]="login" type="email">
+    <div class="form-group login-page__password">
+      <label>Password</label>
+      <div *ngIf="submitted && f.password.errors" class="login-page__error">
+        <div *ngIf="f.password.errors.required">Password is required</div>
+      </div>
+      <input type="password" formControlName="password" class="form-control"
+             [ngClass]="{ 'is-invalid': submitted && f.password.errors }"/>
     </div>
-    <div class="login-page__password">
-      <span>Password:</span>
-      <input [(ngModel)]="password" type="password">
+    <div class="form-group">
+      <button class="login-page__button">Login</button>
     </div>
-    <div class="login-page__button" (click)="signIn()">Login</div>
-  </div>
+  </form>
 </div>

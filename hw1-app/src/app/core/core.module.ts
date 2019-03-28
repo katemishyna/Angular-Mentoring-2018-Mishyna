@@ -9,7 +9,7 @@ import {throwIfAlreadyLoaded} from './module-import-guard';
 import {AuthService} from './auth.service';
 import {LoginPageComponent} from './login-page/login-page.component';
 import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NotFoundPageComponent} from './not-found-page/not-found-page.component';
 import {RouterModule} from '@angular/router';
 import {TokenInterceptor} from './token.interceptor';
@@ -22,6 +22,7 @@ import {LoaderService} from './loader.service';
     SharedModule,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule],
   providers: [AuthService, LoaderService, {
     provide: HTTP_INTERCEPTORS,

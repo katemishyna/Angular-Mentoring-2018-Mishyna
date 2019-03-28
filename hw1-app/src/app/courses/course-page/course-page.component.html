@@ -1,27 +1,49 @@
 <div class="add-course">
-  <div class="fieldset">
-    <span>Title</span>
-    <input [(ngModel)]="course.title" type="text">
-  </div>
-  <div class="fieldset">
-    <span>Description</span>
-    <textarea [(ngModel)]="course.description" name="Text1" cols="40" rows="5"></textarea>
-  </div>
-  <div class="fieldset">
-    <span>Date</span>
-    <date-picker [(date)]="course.date"></date-picker>
-  </div>
-  <div class="fieldset">
-    <span>Duration</span>
-    <duration-input [(duration)]="course.duration"></duration-input>
-  </div>
-  <div class="fieldset">
-    <span>Authors</span>
-    <multiple-input [(items)]="course.authors"></multiple-input>
-  </div>
-  <div class="add-course__controls">
-    <div class="add-course__button" (click)="saveOrUpdate()">Save</div>
-    <div class="add-course__button" (click)="cancel()">Cancel</div>
-  </div>
-
+  <form [formGroup]="coursePageForm" (ngSubmit)="saveOrUpdate()" class="login-page__form">
+    <div class="fieldset">
+      <span (click)="test()">Title</span>
+      <div *ngIf="f && f.title.errors && f.title.touched" class="add-course__error">
+        <div *ngIf="f && f.title.errors.required">Title is required</div>
+        <div *ngIf="f && f.title.errors.maxlength">Max Length is exceed</div>
+      </div>
+      <input formControlName="title" type="text" [ngClass]="{ 'is-invalid': f.title.touched && f.title.errors }">
+    </div>
+    <div class="fieldset">
+      <span>Description</span>
+      <div *ngIf="f && f.description.errors && f.description.touched" class="add-course__error">
+        <div *ngIf="f && f.description.errors.required">Description is required</div>
+        <div *ngIf="f && f.description.errors.maxlength">Max Length is exceed</div>
+      </div>
+      <textarea formControlName="description"
+                name="Text1" cols="40" rows="5"
+                [ngClass]="{ 'is-invalid': f.description.touched && f.description.errors }"></textarea>
+    </div>
+    <div class="fieldset">
+      <span>Date</span>
+      <div *ngIf="f && f.date.errors" class="add-course__error">
+        <div *ngIf="f && f.date.errors.required">Date is required</div>
+        <div *ngIf="f && f.date.errors.dateFormat">Date should be in format: dd/mm/yyyy </div>
+      </div>
+      <date-picker formControlName="date"
+                   [error]="f.date.invalid && (f.date.dirty || f.date.touched)"
+                   id="date" ></date-picker>
+    </div>
+    <div class="fieldset">
+      <span>Duration</span>
+      <div *ngIf="f && f.duration.errors" class="add-course__error">
+        <div *ngIf="f && f.duration.errors.required">Duration is required</div>
+      </div>
+      <duration-input  formControlName="duration"
+                       [error]="f.duration.invalid && (f.duration.dirty || f.duration.touched)"
+                       id="duration"></duration-input>
+    </div>
+    <div class="fieldset">
+      <span>Authors</span>
+      <multiple-input [(items)]="course.authors"></multiple-input>
+    </div>
+    <div class="add-course__controls">
+      <button class="add-course__button" [disabled]="coursePageForm.invalid">Save</button>
+      <button type="button" class="add-course__button" (click)="cancel()">Cancel</button>
+    </div>
+  </form>
 </div>

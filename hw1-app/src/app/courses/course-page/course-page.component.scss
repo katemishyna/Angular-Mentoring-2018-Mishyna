@@ -12,6 +12,13 @@
   &__controls {
     display: flex;
   }
+  &__error {
+    color: red;
+    font-size: 10px;
+  }
+  .is-invalid {
+    border: 1px solid red;
+  }
 }
 
 .fieldset {

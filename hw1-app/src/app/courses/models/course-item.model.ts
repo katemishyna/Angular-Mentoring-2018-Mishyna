@@ -5,7 +5,7 @@ export interface ICourse {
   duration: number;
   description: string;
   topRated: boolean;
-  date?: Date;
+  date?: Date
   authors?: any[];
 }
 
